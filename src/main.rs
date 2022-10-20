@@ -2,7 +2,7 @@ use std::fs::File;
 use std::io::Write;
 use serde_json::Value;
 use std::collections::HashMap;
-use reqwest::header::{HeaderMap, USER_AGENT, CONTENT_LENGTH, COOKIE};
+use reqwest::header::{HeaderMap, CONTENT_LENGTH, COOKIE};
 
 fn main() {
     tts(
@@ -16,7 +16,6 @@ fn tts(session_id: &str, voice: &str, text: &str) {
     let text = text.replace("+", "plus").replace(" ", "+").replace("&", "and");
     let url = format!("https://api22-normal-c-useast1a.tiktokv.com/media/api/text/speech/invoke/?text_speaker={voice}&req_text={text}&speaker_map_type=0&aid=1233");
     let mut headers = HeaderMap::new();
-        headers.insert(USER_AGENT, "com.zhiliaoapp.musically/2022600030 (Linux; U; Android 7.1.2; es_ES; SM-G988N; Build/NRD90M;tt-ok/3.12.13.1".parse().unwrap()); // not needed
         headers.insert(CONTENT_LENGTH, "0".parse().unwrap());
     let cookie = format!("sessionid={}", session_id);
         headers.insert(COOKIE, cookie.parse().unwrap());
