@@ -22,13 +22,11 @@ fn tts(session_id: &str, voice: &str, text: &str) {
 
     let res = reqwest::blocking::Client::new().post(url)
         .headers(headers)
-        .send()
-        .expect("Oh no! #1")
-        .text()
-        .expect("Oh no! #2");
+        .send().expect("Oh no! #1")
+        .text().expect("Oh no! #2");
 
     let map: HashMap<String, Value> = serde_json::from_str(&res).unwrap();
-    
+
     let test: String = map["data"]["v_str"].to_string()
         .replace("String(", "")
         .replace(")", "")
