@@ -3,19 +3,13 @@ use std::io::Write;
 use serde_json::Value;
 use std::collections::HashMap;
 use reqwest::header::{HeaderMap, CONTENT_LENGTH, COOKIE};
-// use std::env;
 use std::str;
 
-fn main() {
-    // let args: Vec<String> = env::args().collect();
-    // let text = args[1..args.len()].into_iter().collect();
-
-    tts(
+fn main() {tts(
         "fecef076f71b6d2c3ffa3c85a1b74b2a",
         "en_us_rocket",
         "Paragraphs are the building blocks of papers. Many students define paragraphs in terms of length: a paragraph is a group of at least five sentences, a paragraph is half a page long, etc. In reality, though, the unity and coherence of ideas among sentences is what constitutes a paragraph. A paragraph is defined as “a group of sentences or a single sentence that forms a unit” (Lunsford and Connors 116). Length and appearance do not determine whether a section in a paper is a paragraph. For instance, in some styles of writing, particularly journalistic styles, a paragraph can be just one sentence long. Ultimately, a paragraph is a sentence or group of sentences that support one main idea. In this handout, we will refer to this as the “controlling idea,” because it controls what happens in the rest of the paragraph."
-    )
-}
+)}
 
 fn tts(session_id: &str, voice: &str, text: &str) {
     let text = text.replace("+", "plus").replace(" ", "+").replace("&", "and");
@@ -36,7 +30,7 @@ fn tts(session_id: &str, voice: &str, text: &str) {
             let mut vector = request(headers, voice, &splonk);
             bytes.append(&mut vector)
         }
-        
+
         File::create("output.mp3").expect("Oh no! #3")
             .write_all(&bytes).expect("Oh no! #4");
     }
