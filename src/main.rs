@@ -22,8 +22,8 @@ fn tts(session_id: &str, voice: &str, text: &str) {
         headers.insert(COOKIE, format!("sessionid={}", session_id).parse().unwrap());
 
     if text.len() < 200 {
-        File::create("output.mp3").expect("Oh no! #3")
-            .write_all(&request(headers, voice, &text)).expect("Oh no! #4");
+        File::create("output.mp3").unwrap()
+            .write_all(&request(headers, voice, &text)).unwrap()
     } else {
         let mut collection = Vec::<String>::new();
         split_string(text, &mut collection);
@@ -34,13 +34,13 @@ fn tts(session_id: &str, voice: &str, text: &str) {
             let mut vector = request(headers, voice, &splonk);
             bytes.append(&mut vector)
         }
-        File::create("output.mp3").expect("Oh no! #3")
-            .write_all(&bytes).expect("Oh no! #4");
+        File::create("output.mp3").unwrap()
+            .write_all(&bytes).unwrap()
     }
 }
 
 fn read_file(filename: &str) -> String {
-    return std::fs::read_to_string(filename).expect("asdf")
+    return std::fs::read_to_string(filename).unwrap()
 }
 
 fn split_string(mut string: String, collection: &mut Vec<String>) {
@@ -63,8 +63,8 @@ fn request(headers: HeaderMap, voice: &str, text: &str) -> Vec<u8> {
     let url = format!("https://api22-normal-c-useast1a.tiktokv.com/media/api/text/speech/invoke/?text_speaker={voice}&req_text={text}&speaker_map_type=0&aid=1233");
     let res = reqwest::blocking::Client::new().post(url)
         .headers(headers)
-        .send().expect("Oh no! #1")
-        .text().expect("Oh no! #2");
+        .send().unwrap()
+        .text().unwrap();
     let map: HashMap<String, Value> = serde_json::from_str(&res).unwrap();
     return base64::decode(map["data"]["v_str"]
         .to_string()
